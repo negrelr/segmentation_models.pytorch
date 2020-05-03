@@ -56,7 +56,7 @@ class Loss(BaseObject):
         if isinstance(value, (int, float)):
             return MultipliedLoss(self, value)
         else:
-            raise ValueError('Loss should be inherited from `BaseLoss` class')
+            raise ValueError('Loss should be inherited from `Loss` class')
 
     def __rmul__(self, other):
         return self.__mul__(other)
@@ -72,6 +72,9 @@ class SumOfLosses(Loss):
 
     def __call__(self, *inputs):
         return self.l1.forward(*inputs) + self.l2.forward(*inputs)
+    
+    def forward(self, *inputs):
+        return self.__call__(*inputs)
 
 
 class MultipliedLoss(Loss):
@@ -89,3 +92,6 @@ class MultipliedLoss(Loss):
 
     def __call__(self, *inputs):
         return self.multiplier * self.loss.forward(*inputs)
+    
+    def forward(self, *inputs):
+        return self.__call__(*inputs)
