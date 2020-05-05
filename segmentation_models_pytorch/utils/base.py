@@ -70,8 +70,11 @@ class SumOfLosses(Loss):
         self.l1 = l1
         self.l2 = l2
 
-    def __call__(self, *inputs):
+    def forward(self, *inputs):
         return self.l1.forward(*inputs) + self.l2.forward(*inputs)
+    
+    def __call__(self, *inputs):
+        return self.forward(*inputs)
 
 
 class MultipliedLoss(Loss):
@@ -87,5 +90,8 @@ class MultipliedLoss(Loss):
         self.loss = loss
         self.multiplier = multiplier
 
-    def __call__(self, *inputs):
+    def forward(self, *inputs):
         return self.multiplier * self.loss.forward(*inputs)
+    
+    def __call__(self, *inputs):
+        return self.forward(*inputs)
